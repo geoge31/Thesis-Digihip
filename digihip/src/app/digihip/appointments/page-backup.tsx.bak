@@ -1,0 +1,1055 @@
+ /**
+  * Appointments Page
+  * This component provides the appointments page for Digihip application.
+  * Displays: 
+     * monthly-view of all appointments
+     * weekly-view of all appointments
+     * daily-view of all appointments
+  * @path @/src/app/digihip/appointments  
+  * @file page.tsx
+  */
+
+ 'use client';
+
+ import styles from '@/digihip/appointments/css/Appointments.module.css';
+ import stylesMonth from '@/digihip/appointments/css/MonthlyContent.module.css';
+ import stylesWeek from '@/digihip/appointments/css/WeeklyContent.module.css';
+ import stylesDay from '@/digihip/appointments/css/DailyContent.module.css';
+
+ import React, {useEffect, useState} from 'react';
+ import { useDoctor } from '@/api/_context/Doctors/Context';
+ import { usePatientProvider } from '@/api/_context/Patients/Context';
+ import { useAppointment } from '@/api/_context/Appointments/Context';
+ import { useRouter } from 'next/navigation';
+ import { PatientData, AppointmentInterface } from '@/utils/interfaces/interfaceModules';
+ import { CreateAppointment } from '@/services/appointments/createAppointment';
+ import { updateAppointment } from './METHODS/updateAppointment';
+ import ShowApptStatusAlert from '@/digihip/appointments/alerts/statusAlert';
+ import { getStartOfWeek, getCurrentWeekDates, prevWeek, nextWeek, handleWeekChange } from '@/digihip/appointments/utils/date/weekUtils';
+ import { getMonthYear, getFirstDayOfMonth, getDaysInMonth, nextMonth, prevMonth } from './utils/date/monthUtils';
+ import { prevDay, nextDay } from './utils/date/dayUtils';
+ import { customLocale } from '@/utils/locale/localeModule';
+ import DatePicker from 'react-datepicker';
+ import 'react-datepicker/dist/react-datepicker.css';
+ import {el} from 'date-fns/locale'
+
+ import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
+ import { GrClose } from 'react-icons/gr';
+ import { GoDotFill } from "react-icons/go";
+ import { RiDeleteBin5Line } from "react-icons/ri";
+ import { Input, Menu } from 'antd';
+
+ import MonthlyView from './modules/MonthlyView/MonthlyView';
+
+
+ type Patients = PatientOfAppointment[] | null;
+ type Appointments = AppointmentInterface[] | null;
+
+  const sections = [
+      'monthly',
+      'weekly',
+      'daily'
+  ];
+
+
+ interface ApptsProps {
+     appointments: Appointments;
+     patients: Patients;
+ }
+
+
+ const Appointments: React.FC<> = ({}) => {}; 
+
+ /**
+  * 
+  * @returns 
+  */
+ export default function Appointments() {
+
+     const { currentDoctorData, loading } = useDoctor();
+     const { patientsList, setCurrPatientId }= usePatientProvider();
+     const { appointmentsList } = useAppointment();
+     const [activeView, setActiveView] = useState<"monthly" | "weekly" | "daily" | "">("monthly"); 
+
+     const router = useRouter();
+
+     console.log(appointmentsList);
+
+    
+      const [view, setView] = useState<'monthly' | 'weekly' | 'daily'>('monthly');
+     const [weekStartDate, setWeekStartDate] = useState(() => {
+         const savedDate = sessionStorage.getItem('weekStartDate');
+         return savedDate ? new Date(savedDate) : getStartOfWeek(new Date());
+     })
+
+     const [currentWeek, setCurrentWeek] = useState(() => {
+         const savedDate = sessionStorage.getItem('weekStartDate');
+         const initialDate = savedDate ? new Date(savedDate) : getStartOfWeek(new Date());
+         return getCurrentWeekDates(initialDate);
+     });
+
+     const currentWeekDates = getCurrentWeekDates(weekStartDate);
+    
+     const [currentPage, setCurrentPage] = useState(() => {
+         const savedPage = sessionStorage.getItem('currentPage');
+         return savedPage ? parseInt(savedPage) : 0;
+     });
+
+     const [currentDate, setCurrentDate] = useState(new Date());
+     const [filteredPatients, setFilteredPatients] = useState<Patients>(null);
+     const [selectedPatient, setSelectedPatient] = useState<PatientData | null>(null);  
+     const [currApptId, setCurrApptId] = useState('');
+    
+     const currDocId = currentDoctorData?._id || '';
+    
+     const patient = useState<PatientData>;
+    
+     const [showNewAppointmentModal, setShowNewAppointmentModal] = useState(false); /** show the modal of a new appointment */
+     const [showExistingAppointment, setShowExistingAppointment] = useState(false); /** shows the information of an existing appointment */
+     const [editMode, setEditMode] = useState(false);
+     const [showApptStatusAlert, setShowApptStatusAlert] = useState(false); /** alerts the state of a new/updated appointment */
+     const [alertMssg, setAlertMssg] = useState<string | null>('empty');
+     const [alertType, setAlertType] = useState<'success' | 'error' | 'default'>('default');
+
+     const [appointmentData, setAppointmentData] = useState<AppointmentInterface>({
+         appointmentDate: null,
+         appointmentPatient: null,
+         appointmentReason: '',
+         appointmentDoctor: '',
+         doctorName: '',
+         doctorSid: '',
+     });
+    
+     const [oldApptData, setOldApptData] = useState<AppointmentInterface | null>(null);
+    
+     const [newAppointmentData, setNewAppointmentData] = useState<AppointmentInterface>({
+         appointmentDate: null,
+         appointmentPatient: null,
+         appointmentReason: null,
+         appointmentDoctor: null,
+         doctorName: null,
+         doctorSid: null,
+     });
+
+     const [searchTerm,setSearchTerm] = useState('');
+
+     const setStatusAlert = (message: string, type: 'success' |  'error' | 'default' ) => {
+         setAlertMssg(message);
+         setAlertType(type);
+         setShowApptStatusAlert(true);
+     }
+
+     const handleSelectionClick = (index: number) => {
+         setCurrentPage(index);
+         sessionStorage.setItem('currentPage', index.toString())
+     };
+
+     const ToggleEditCancelCLick = () => {
+         if(editMode) {
+             setEditMode(false);
+         } else {
+             setEditMode(true);
+         }
+
+         if(oldApptData) {
+             setAppointmentData(oldApptData);
+         } else {
+             setOldApptData({...appointmentData});
+         }
+     }
+
+     const handleDateChange = (date: Date | null) => {
+         if (date) {
+             const startOfWeek = getStartOfWeek(date);
+             setWeekStartDate(startOfWeek);
+             setCurrentDate(date);
+             setCurrentWeek(getCurrentWeekDates(startOfWeek)); 
+    
+              sessionStorage.setItem("weekStartDate", startOfWeek.toISOString());
+         }
+     };
+
+     const setCurrentMonth = () => {
+         setCurrentDate(new Date());
+         getMonthYear(currentDate);
+     }
+
+     const renderAppointmentBoxes = () => {
+         const year = currentDate.getFullYear();
+         const month = currentDate.getMonth();
+    
+         const totalDaysInMonth = getDaysInMonth(year, month); 
+         const firstDayOfMonth = getFirstDayOfMonth(year, month); 
+    
+         const totalBoxes = 42; 
+         const boxes = [];
+    
+         for (let i = 0; i < firstDayOfMonth; i++) {
+             boxes.push(
+                 <div key={`empty-${i}`} className={stylesMonth.appointmentBox}>
+                     {/* empty box */}
+                 </div>
+             );
+         }
+    
+         for (let day = 1; day <= totalDaysInMonth; day++) {
+             const currentDay = new Date(year, month, day);
+             const dailyAppointments = getAppointmentsForDate(currentDay) || [];
+    
+             boxes.push(
+                 <div key={`day-${day}`} className={stylesMonth.appointmentBox}>
+                     <div className={stylesMonth.dateHeader}>{day}</div>
+                     <div className={stylesMonth.appointmentsContainer}>
+                         {dailyAppointments.length > 0 ? (
+                             dailyAppointments.map((appointment) => (
+                                 <div 
+                                     key={appointment._id} 
+                                     className={stylesMonth.appointmentItem}
+                                     onClick={() => {
+                                         setCurrApptId(appointment?._id ?? '');
+                                         handlePreviewAppointment(appointment);
+                                     }}>
+                                         <GoDotFill color='green'/>
+                                         <p>
+                                             {new Date(appointment.appointmentDate).toLocaleTimeString('el', {
+                                                 hour: '2-digit',
+                                                 minute: '2-digit',
+                                             })}
+                                             {` ${appointment?.appointmentPatient.firstname} ${appointment.appointmentPatient.lastname}`}
+                                         </p>
+                                     <div className={stylesMonth.tooltip}>
+                                         <ul>
+                                             <li>
+                                                 {new Date(appointment.appointmentDate).toLocaleDateString()} στις {new Date(appointment.appointmentDate).toLocaleTimeString('el',{
+                                                     hour: '2-digit',
+                                                     minute: '2-digit'
+                                                 })}
+                                             </li>
+                                             <li 
+                                                 className={stylesMonth.clickPatient}
+                                                 onClick={() => navigateToPatient(appointment.appointmentPatient._id, appointment.appointmentPatient.id)}>
+                                                 Ασθενής <u>{`${appointment.appointmentPatient.firstname} ${appointment.appointmentPatient.lastname}`}</u>
+                                             </li>
+                                             <li>
+                                                 Αιτιολογία: {appointment.appointmentReason}
+                                             </li>
+                                             <li>
+                                                 Ιατρός: {appointment.appointmentDoctor}
+                                             </li>
+                                         </ul>
+                                     </div>
+                                 </div>
+                             ))
+                         ) : (
+                             <p className={stylesMonth.noAppointments}>-</p>
+                         )}
+                     </div>
+                 </div>
+             );
+         }
+    
+         const remainingBoxes = totalBoxes - (firstDayOfMonth + totalDaysInMonth);
+         for (let i = 0; i < remainingBoxes; i++) {
+             boxes.push(
+                 <div key={`remaining-${i}`} className={stylesMonth.appointmentBox}>
+                     {/* empty box */}
+                 </div>
+             );
+         }
+    
+         return boxes;
+     };
+
+     const getAppointmentsForDate = (date: Date | null) => {
+         if (!date) return [];
+          console.log("Checking appointments for date:", date.toDateString());
+
+         return Array.isArray(appointmentsList)
+          ? appointmentsList.filter((appointment) => {
+                const appointmentDate = new Date(appointment?.appointmentDate).toLocaleDateString();
+                console.log("Appointment datewi thout string:", appointmentDate);
+                 console.log("Appointment date:", appointmentDate.toDateString());
+                return (
+                    appointmentDate.getFullYear() === date?.getFullYear() &&
+                    appointmentDate.getMonth() === date?.getMonth() &&
+                    appointmentDate.getDate() === date?.getDate()
+                );
+            })
+          : []; 
+         ? appointmentsList.filter((appointment) => {
+             const appointmentDate = new Date(appointment.appointmentDate).toLocaleDateString();
+             const targetDate = date.toLocaleDateString();
+
+              console.log("Checking date:", targetDate, "against appointment date:", appointmentDate);
+             return appointmentDate === targetDate;
+         })
+         : [];
+     };
+
+     const updateWeek = (date: Date) => {
+         setWeekStartDate(date);
+         setCurrentDate(date);
+         setCurrentWeek(getCurrentWeekDates(date));
+     };
+     
+     const navigateToPatient = async (pId: string, pnumId: Number) => {
+         if(pId) {
+             setCurrPatientId(pId);
+             router.push(`/digihip/patient-details?id=${pnumId}`);
+         }
+     };
+
+     const renderFormContent = () => {
+
+         switch (sections[currentPage]) {
+             case 'monthly':
+                 return (
+                     <div className={stylesMonth.monthlyAppointments}>
+                             <div className={styles.selectionHeader}>
+                                 <div className={styles.selectionNavigation}>
+                                     <div className={styles.today}>
+                                         <button
+                                             type='button'
+                                             title='This-month'
+                                             onClick={() => setCurrentDate(new Date())}>Σήμερα
+                                         </button>
+                                     </div>
+                                     <div
+                                         className={styles.prev_next_Button}>
+                                             <button
+                                                 type='button'
+                                                 title='previous'
+                                                 onClick={() => prevMonth(setCurrentDate)}>{<GrFormPrevious/>}</button>
+                                     </div>
+                                     <div className={styles.datePicker_content}>
+                                         <DatePicker
+                                             selected={currentDate}
+                                             onChange={handleDateChange}
+                                             dateFormat="MMMM yyyy"
+                                             showMonthYearPicker
+                                             locale={customLocale} 
+                                             className={stylesMonth.datePicker}
+                                         /> 
+                                     </div>
+                                     <div
+                                         className={styles.prev_next_Button}>
+                                         <button
+                                             type='button'
+                                             title='next'
+                                             onClick={() => nextMonth(setCurrentDate)}>{<GrFormNext/>}
+                                         </button>        
+                                     </div>
+                                 </div>
+                             </div>
+                             <div className={stylesMonth.monthContent}>
+                                 <div className={stylesMonth.daysOfWeek}>
+                                     <div className={stylesMonth.dayOfWeek}>Δευτέρα</div>
+                                     <div className={stylesMonth.dayOfWeek}>Τρίτη</div>
+                                     <div className={stylesMonth.dayOfWeek}>Τετάρτη</div>
+                                     <div className={stylesMonth.dayOfWeek}>Πέμπτη</div>
+                                     <div className={stylesMonth.dayOfWeek}>Παρασκευή</div>
+                                     <div className={stylesMonth.dayOfWeek}>Σάββατο</div>
+                                     <div className={stylesMonth.dayOfWeek}>Κυριακή</div>
+                                 </div>
+                                 <div className={stylesMonth.appointmentsBoxes}>
+                                     {renderAppointmentBoxes()}
+                                 </div>
+                             </div>
+                         </div>
+                 );
+             case 'weekly':
+                 return (
+                     <div>
+                         <div className={stylesWeek.weeklyContainer}>
+                             <div className={styles.selectionHeader}>
+                                 <div className={styles.selectionNavigation}>
+                                         <div className={styles.today}>
+                                             <button
+                                                 type='button'
+                                                 title='This-week'
+                                                 onClick={() => updateWeek(getStartOfWeek(new Date()))}>Σήμερα
+                                             </button>
+                                         </div>
+                                         <div
+                                             className={styles.prev_next_Button}>
+                                                 <button
+                                                     type='button'
+                                                     title='Previous-week'
+                                                     onClick={() => prevWeek(weekStartDate,updateWeek)}>{<GrFormPrevious/>}</button>
+                                         </div>
+                                         <div className={styles.datePicker_content}>
+                                             <DatePicker
+                                                 selected={currentDate}
+                                                 onChange={(date) => handleWeekChange(date, updateWeek)}
+                                                 dateFormat='w εβδομάδα MMMM'
+                                                 showWeekPicker
+                                                 locale={el} 
+                                                 className={stylesMonth.datePicker}
+                                             /> 
+                                         </div>
+                                         <div
+                                             className={styles.prev_next_Button}>
+                                             <button
+                                                 type='button'
+                                                 title='Next-week'
+                                                 onClick={() => nextWeek(weekStartDate, updateWeek)}>{<GrFormNext/>}
+                                             </button>        
+                                         </div>
+                                 </div>
+                             </div>
+                             <div className={stylesWeek.weekContent}>
+                                 <div className={stylesWeek.weeklyHeader}>
+                                     {currentWeekDates.map((date, index) =>(
+                                         <div 
+                                             key={index}
+                                             className={stylesWeek.dayHeader}
+                                         >
+                                             {date.toLocaleDateString('el', { weekday: 'long', day: 'numeric', month: 'numeric' })}
+                                         </div>
+                                     ))}
+                                 </div>
+                                 <div className={stylesWeek.weeklyBody}>
+                                     {currentWeekDates.map((date, index) => {
+                                         const dailyAppointments = getAppointmentsForDate(date);
+                                         return (
+                                             <div key={index} className={stylesWeek.dayColumn}>
+                                                 {dailyAppointments?.length ? (
+                                                     dailyAppointments.map((appointment) => (
+                                                         <div key={appointment._id} className={stylesWeek.appointmentItem}>
+                                                             <p>
+                                                                 <b>{new Date(appointment.appointmentDate).toLocaleTimeString('el', { hour: '2-digit', minute: '2-digit' })}</b>
+                                                             </p>
+                                                             <p>
+                                                                 <b>{`${appointment.appointmentPatient.firstname} ${appointment.appointmentPatient.lastname}`}</b>
+                                                             </p>
+                                                             <div className={stylesWeek.tooltip}>
+                                                                 <table className={stylesWeek.tooltipTable}>
+                                                                     <tbody>
+                                                                         <tr>
+                                                                             <th>Ημερομηνία</th>
+                                                                             <td>
+                                                                                 {new Date(appointment.appointmentDate).toLocaleDateString('el', {
+                                                                                     year: 'numeric', month: 'long', day: 'numeric'
+                                                                                 })}
+                                                                             </td>
+                                                                         </tr>
+                                                                         <tr>
+                                                                             <th>Ώρα</th>
+                                                                             <td>
+                                                                                 {new Date(appointment.appointmentDate).toLocaleTimeString('el', { hour: '2-digit', minute: '2-digit' })}
+                                                                             </td>
+                                                                         </tr>
+                                                                         <tr>
+                                                                             <th>Ασθενής</th>
+                                                                             <td
+                                                                                 onClick={() => {
+                                                                                     navigateToPatient(appointment.appointmentPatient._id, appointment.appointmentPatient.id);
+                                                                                 }}
+                                                                                 ><a>{`${appointment.appointmentPatient.firstname} ${appointment.appointmentPatient.lastname}`}</a></td>
+                                                                         </tr>
+                                                                         <tr>
+                                                                             <th>Αιτιολογία</th>
+                                                                             <td>{appointment.appointmentReason}</td>
+                                                                         </tr>
+                                                                         <tr>
+                                                                             <th>Ιατρός</th>
+                                                                             <td>{appointment.appointmentDoctor}</td>
+                                                                         </tr>
+                                                                     </tbody>
+                                                                 </table>
+                                                                 <div className={stylesWeek.tooltipButtons}>
+                                                                     <button
+                                                                         type="button"
+                                                                         className={stylesWeek.editMode}>
+                                                                             Επεξεργασία
+                                                                     </button>
+                                                                     <button
+                                                                         type="button"
+                                                                         className={stylesWeek.deleteAppointment}>
+                                                                             Διαγραφή
+                                                                     </button>
+                                                                 </div>
+                                                                    
+                                                             </div>
+                                                         </div>
+                                                     ))
+                                                 ) : (
+                                                     <p>-</p>
+                                                 )}
+                                             </div>
+                                         );
+                                     })}
+                                 </div>
+                             </div>
+
+                         </div>
+                     </div>
+                 );
+             case 'daily':
+                 const dailyAppointments = getAppointmentsForDate(currentDate);
+
+                 return (
+                     <div className={stylesDay.dailyContent}>
+                         <div className={styles.selectionHeader}>
+                             <div className={styles.selectionNavigation}>
+                                 <div className={styles.today}>
+                                     <button
+                                         type="button"
+                                         title="Today"
+                                         onClick={() => setCurrentDate(new Date())}>
+                                         Σήμερα
+                                     </button>
+                                 </div>
+                                 <div className={styles.prev_next_Button}>
+                                     <button
+                                         type="button"
+                                         title="Previous-day"
+                                         onClick={() => setCurrentDate(prevDay(currentDate))}>
+                                         <GrFormPrevious />
+                                     </button>
+                                 </div>
+                                 <div className={styles.datePicker_content}>
+                                     <DatePicker
+                                         selected={currentDate}
+                                         onChange={(date) => date && setCurrentDate(date)}
+                                         dateFormat="d MMMM yyyy"
+                                         locale={el}
+                                         className={stylesMonth.datePicker}
+                                     />
+                                 </div>
+                                 <div className={styles.prev_next_Button}>
+                                     <button
+                                         type="button"
+                                         title="Next-day"
+                                         onClick={() => setCurrentDate(nextDay(currentDate))}>
+                                         <GrFormNext />
+                                     </button>
+                                 </div>
+                             </div>
+                         </div>
+            
+                         {/* Daily appointments table */}
+                         <div className={stylesDay.dailyColumn}>
+                             <table>
+                                 <tbody>
+                                     {dailyAppointments.length > 0 ? (
+                                         dailyAppointments.map((appointment) => (
+                                             <tr key={appointment._id}>
+                                                 <th>
+                                                     {new Date(appointment.appointmentDate || new Date()).toLocaleTimeString('el', {
+                                                         hour: '2-digit',
+                                                         minute: '2-digit',
+                                                     })}
+                                                 </th>
+                                                 <td>
+                                                     {appointment.appointmentPatient.firstname} {appointment.appointmentPatient.lastname}
+                                                 </td>
+                                             </tr>
+                                         ))
+                                     ) : (
+                                         <tr>
+                                             <td colSpan={2}>Δεν υπάρχουν ραντεβού για σήμερα</td>
+                                         </tr>
+                                     )}
+                                 </tbody>
+                             </table>
+                         </div>
+                     </div>
+                 );
+             default:
+                 return <div></div>;
+         }
+     };
+
+     const handleNewAppointmentModal = () => {
+         if (showNewAppointmentModal) {
+             setShowNewAppointmentModal(false);
+         } else {
+             setShowNewAppointmentModal(true);
+         }
+     };
+
+     const handleAppointmentDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        
+         const {name,value} = e.target;
+
+         if (name === "appointmentDoctor") {
+             const uppercasedName = value.toUpperCase();
+             console.log(`name: ${name}, value: ${uppercasedName}`);
+             setNewAppointmentData({ ...newAppointmentData, [name]: uppercasedName });
+         } else {
+             console.log(`name: ${name}, value: ${value}`);
+             setNewAppointmentData({ ...newAppointmentData, [name]: value });
+         }
+
+         console.log(newAppointmentData);
+     };
+
+     const handleAppointmentDateChange = (date: Date | null) => {
+         console.log(date);
+         setNewAppointmentData({ ...newAppointmentData, appointmentDate: date});
+     };
+
+     const handleExistingApptDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+         const {name, value} = e.target;
+
+         if(name === 'appointmentDoctor') {
+             const uprcsName = value.toLocaleUpperCase();
+             setAppointmentData({ ...appointmentData, [name]: uprcsName });
+         } else {
+             setAppointmentData({ ...appointmentData, [name]: value });
+         }
+     };
+
+     const handleExistingAppointmentDateChange = (date: Date | null) => {
+         setAppointmentData({ ...appointmentData, appointmentDate: date});
+     };
+
+     /**
+      * 
+      * @param patient 
+      */
+     const handleSelectPatient = (patient: PatientData) => {
+         setFilteredPatients([]); 
+         setSelectedPatient(patient);
+         setSearchTerm(`${patient.firstname} ${patient.lastname}`); 
+     };
+    
+     const handleClearAppointmentModal = () => {
+         setAppointmentData({
+             appointmentDate: null,
+             appointmentPatient: null,
+             appointmentReason: "",
+             appointmentDoctor: "",
+             doctorName: "",
+             doctorSid : ""
+         });
+         setSearchTerm('');
+     };
+
+     const handlePostNewAppointment = async () => {
+         const newAppointment = {
+             ...newAppointmentData,
+             appointmentPatient: selectedPatient,
+             doctorName: `${currentDoctorData?.firstName} ${currentDoctorData?.lastName}`,
+             doctorSid: currentDoctorData?._id || null
+         };
+
+         const idToSend = currentDoctorData?._id || '';
+         const result = await CreateAppointment(idToSend,newAppointment);
+
+         if (!result) {
+             setStatusAlert('Προέκυψε κάποιο σφάλμα','error');
+             return;
+         }
+
+         if(result.status === 200) {
+             setStatusAlert('Το ραντεβού σας προστέθηκε με επιτυχία .', 'success');
+             setShowNewAppointmentModal(false);
+         }  else {
+             setStatusAlert('Προέκυψε κάποιο σφάλμα','error');
+         }
+     };
+
+     const handlePreviewAppointment = (appointment: AppointmentInterface ) => {
+         if(appointment) {
+             setAppointmentData({
+                 appointmentDate: appointment.appointmentDate,
+                 appointmentPatient: appointment.appointmentPatient,
+                 appointmentReason: appointment.appointmentReason,
+                 appointmentDoctor: appointment.appointmentDoctor,
+                 doctorName: appointment.doctorName,
+                 doctorSid: appointment.doctorSid,
+             });
+             setShowExistingAppointment(true); 
+         }
+     };
+
+     const previewExistingAppointmentContent = () => {
+         return (
+             <>
+                 <div className={stylesMonth.previewAppt}>
+                         <div className={stylesMonth.prevApptContent}>
+                             <div className={stylesMonth.prevApptHeader}>
+                                 <div className={stylesMonth.Title}>
+                                     Στοιχεία Ραντεβού
+                                 </div>
+                                 <div className={stylesMonth.Button}>
+                                     <button
+                                         type='button'
+                                         title='close'
+                                         onClick={() => {
+                                             setShowExistingAppointment(false);
+                                             setEditMode(false);
+                                         }}>{<GrClose/>}
+                                     </button>
+                                 </div>
+                             </div>
+                             <form action={handleUpdateAppointment}>
+                                 <div className={stylesMonth.formElement}>
+                                     <label htmlFor="patient-name">Ονοματεπώνυμο Ασθενή</label>
+                                     <input
+                                         type='text'
+                                         name='patient-name'
+                                         title='patient-name'
+                                         value={`${appointmentData.appointmentPatient?.firstname} ${appointmentData.appointmentPatient?.lastname}`}
+                                         readOnly/>
+                                 </div>
+                                 <div className={stylesMonth.formElement}>
+                                     <label htmlFor="appointmentDate">Ημερομηνία & Ώρα</label>
+                                     <DatePicker
+                                         name='appointmentDate'
+                                         value={new Date(appointmentData.appointmentDate).toLocaleString(
+                                             'el',
+                                             {
+                                                 hour: '2-digit',
+                                                 minute: '2-digit',
+                                                 day: '2-digit',
+                                                 month: '2-digit',
+                                                 year: 'numeric'
+                                             }
+                                         )}
+                                         locale={el}
+                                         showPopperArrow={false}
+                                         popperPlacement="bottom-start"
+                                         showTimeSelect
+                                         dateFormat="Ημ/νία: dd-MM-yyyy | Ώρα: HH:mm"
+                                         timeFormat="HH:mm"
+                                         timeIntervals={5}
+                                         onChange={(date) => handleExistingAppointmentDateChange(date)}
+                                         className={stylesMonth.apptDatepicker}
+                                         readOnly={!editMode}
+                                     />
+                                 </div>
+                                 <div className={stylesMonth.formElement}>
+                                     <label htmlFor="appointmentReason">Αιτιολογία</label>
+                                     <input
+                                         type='text'
+                                         name='appointmentReason'
+                                         title='appointment-reason'
+                                         value={appointmentData.appointmentReason}
+                                         onChange={(e) => handleExistingApptDataChange(e)}
+                                         readOnly={!editMode}/>
+                                 </div>
+                                 <div className={stylesMonth.formElement}>
+                                     <label htmlFor="appointmentDoctor">Υπεύθυνος Ιατρός</label>
+                                     <input
+                                         type='text'
+                                         name='appointmentDoctor'
+                                         title='appointment-doctor'
+                                         value={appointmentData.appointmentDoctor}
+                                         onChange={(e) => handleExistingApptDataChange(e)}
+                                         readOnly={!editMode}/>
+                                 </div>
+                                 <div className={stylesMonth.formElement}>
+                                     <label htmlFor="doctorName">Προστέθηκε από</label>
+                                     <input
+                                         type='text'
+                                         name='doctorName'
+                                         title='appointment-doctor'
+                                         value={appointmentData.doctorName}
+                                         readOnly/>
+                                 </div>
+                                 <div className={stylesMonth.formButtons}>
+                                     { 
+                                         editAppointmentContent()
+                                     }
+                                 </div>
+                             </form>
+                         </div>
+                     </div>
+             </>
+         );
+     };
+
+     const editAppointmentContent = () => {
+         if(editMode) {
+             return (
+                 <>
+                     <button 
+                         type='button' 
+                         title='cancel'
+                         onClick={ToggleEditCancelCLick}>Ακύρωση
+                     </button>
+                     <button 
+                         type='submit'
+                         title='save-changes'>Αποθήκευση
+                     </button>
+                 </>
+             );
+         } else {
+             return (
+                 <>
+                     <button 
+                         type='button'
+                         title='edit'
+                         className={stylesMonth.editApptBtn}
+                         onClick={ToggleEditCancelCLick}>Επεξεργασία
+                     </button>
+                     <button 
+                         type='button'
+                         title='delete'
+                         className={stylesMonth.dltApptBtn}>{<RiDeleteBin5Line/>}
+                     </button>
+                 </>
+             );
+         }
+     };
+
+     const handleUpdateAppointment = async () => { 
+         const updates = {
+             appointmentDate: appointmentData.appointmentDate,
+             appointmentReason: appointmentData.appointmentReason,
+             apopintmentDoctor: appointmentData.appointmentDoctor,
+         }
+
+         const result = await updateAppointment(currDocId, currApptId, updates);
+
+         if(!result) {
+             setEditMode(false);
+             setStatusAlert('Προέκυψε κάποιο σφάλμα','error');
+             return;
+         } 
+         if(result.status === 200) {
+             setStatusAlert('Το ραντεβού σας ενημερώθηκε με επιτυχία.', 'success');
+             setOldApptData(result.updatedAppointment);
+             setEditMode(false);
+         }  else {
+             setStatusAlert('Προέκυψε κάποιο σφάλμα','error');
+         }
+     };
+ 
+     const previewNewAppointmentModal = () => {
+         return (
+             <>
+                 <div className={styles.appointmentModal}>
+                     <div className={styles.closeModal}>
+                         <button 
+                             type='button'
+                             title='close-modal'
+                             className={styles.clsBttn}
+                             onClick={() => {
+                                 handleClearAppointmentModal();
+                                 setShowNewAppointmentModal(false);
+                             }}>
+                                 <GrClose />
+                         </button>
+                     </div>
+                     <div className={styles.appointmentHeader}><h4>Στοιχεία Ραντεβού</h4></div>
+                     <div className={styles.appointmentFormSection}>
+                         <div className={styles.appointmentGroupBox}>
+                             <label>Επιλέξτε Ημερομηνία και Ώρα
+                                 <DatePicker
+                                     selected={newAppointmentData.appointmentDate}
+                                     onChange={(date) => handleAppointmentDateChange(date)}
+                                     locale={el}
+                                     showPopperArrow={false}
+                                     popperPlacement="bottom-start"
+                                     showTimeSelect
+                                     dateFormat="Ημ/νία: dd-MM-yyyy | Ώρα: HH:mm"
+                                     timeFormat="HH:mm"
+                                     timeIntervals={5}
+                                     placeholderText=""
+                                     className={styles.datepickerInput}
+                                 />
+                             </label>             
+                         </div>
+                         <div className={styles.appointmentGroupBox}>
+                             <label>Επιλέξτε Ασθενή
+                                 <Input 
+                                     placeholder="Αναζήτηση Ασθενή"
+                                     name='searchPatient'
+                                     value={searchTerm}
+                                     onChange={(e) => setSearchTerm(e.target.value)}
+                                 />
+                                 <Menu style={{
+                                     maxHeight: '200px',
+                                     overflowY: 'scroll'
+                                 }}>
+                                     {(filteredPatients ?? []).map((patient) => (
+                                         <Menu.Item 
+                                             key={patient._id}
+                                             onClick={() => handleSelectPatient(patient)}>
+                                                 {highlightMatch(patient.firstname, searchTerm)} {highlightMatch(patient.lastname, searchTerm)}
+                                         </Menu.Item>
+                                            
+                                     ))}
+                                 </Menu>
+                             </label>
+                         </div>
+                         <div className={styles.appointmentGroupBox}>
+                             <label>Υπεύθυνος Ιατρός
+                                 <input
+                                     type="text"
+                                     name="appointmentDoctor"
+                                     value={newAppointmentData.appointmentDoctor || ''}
+                                     onChange={(e) => handleAppointmentDataChange(e)}
+                                 />
+                             </label>
+                         </div>
+                         <div className={styles.appointmentGroupBox}>
+                             <label>Αιτιολογία
+                                 <input
+                                     type="text"
+                                     name="appointmentReason"
+                                     value={newAppointmentData.appointmentReason || ''}
+                                     onChange={(e) => handleAppointmentDataChange(e)}
+                                 />
+                             </label>
+                            
+                         </div>
+                         <div className={styles.appointmentModalButtons}>
+                             <button
+                                 type="button"
+                                 className={styles.apmMdlClr}
+                                 onClick={handleClearAppointmentModal}>
+                                     Εκκαθάριση Στοιχείων
+                             </button>
+                             <button
+                                 type="button"
+                                 className={styles.apmdlSv}
+                                 onClick={handlePostNewAppointment}>Αποθήκευση
+                             </button>
+                         </div>
+                     </div>
+                    
+                 </div>
+             </>
+         );
+     };
+
+     const handleCloseAlertStatus = () => {
+         setShowApptStatusAlert(false);
+         setShowNewAppointmentModal(false);
+         return;
+     };
+
+     const DisplayContent = () => {
+
+         switch(activeView) {
+             case "monthly":
+                 return (
+                     <MonthlyView
+                         appointments={appointmentsList}
+                         patients={patientsList}
+                     />
+                 );
+             case "weekly":
+                 return <></>;
+             case "daily":
+                 return <></>;
+             default:
+                 return <></>;
+         }
+     };
+  
+     useEffect(() => {
+
+         if(!currentDoctorData && !loading) router.push(`/`);
+    
+         if (selectedPatient) {
+             if (searchTerm === '') {
+                 setSelectedPatient(null); 
+             }
+             return;
+         }
+
+         if (searchTerm) {
+
+             const filtered = (patientsList ?? []).filter((patient) =>
+             `${patient.firstname} ${patient.lastname}`.toUpperCase().includes(searchTerm.toUpperCase())
+             );
+             setFilteredPatients(filtered);
+         } else {
+             setFilteredPatients([]);  Clear filtered list if no search term
+         }
+     }, [searchTerm, patientsList, selectedPatient,currentDoctorData, loading, router]);
+
+     useEffect(() => {
+         const isFirstTime = sessionStorage.getItem('firstTime');
+
+         if(!isFirstTime) {
+             sessionStorage.setItem('firstTime','true');
+             window.location.reload();
+         }
+
+     }, []);
+
+
+     if(!patientsList || !appointmentsList) {
+         return (
+             <>
+                 <main>
+                 <div className={styles.loadingData}>
+                     <div className={styles.spinner}></div>
+                     <span>Λήψη Δεδομένων.</span>
+                 </div>
+                 </main>
+             </>
+         )
+     }
+
+     return (
+         <>
+             <div className={styles.appointmentsHeader}>
+                 <div className={styles.navigationPanel}>
+                     {/* <select 
+                         name='currentPage'
+                         title='select-view'
+                         className={styles.selectView}
+                         onChange={(e) => handleSelectionClick(Number(e.target.value))}>
+                             <option value={0}>Μήνας</option>
+                             <option value={1}>Εβδομάδα</option>
+                             <option value={2}>Ημέρα</option>
+                     </select> */}
+                     <div>Επιλέξτε Προβολή</div>
+                     <button onClick={() => setActiveView("monthly")}>Μήνας</button>
+                     <button>Εβδομάδα</button>
+                     <button>Ημέρα</button>
+                 </div>
+                 <div className={styles.addAppointment}>
+                     <button
+                         type='button'
+                         title='add-appointment'
+                         onClick={handleNewAppointmentModal}>Προσθήκη Ραντεβού</button>
+                 </div>
+             </div>
+             <main className={styles.main}>
+                 {DisplayContent()}
+             </main>
+
+             {/* <main className={styles.main}>
+                 <div className={styles.appointmentsContent}>
+                     {renderFormContent()}
+                     {showNewAppointmentModal && previewNewAppointmentModal()}
+                     {showExistingAppointment &&  previewExistingAppointmentContent()} 
+                 </div>
+             </main> */}
+             {showApptStatusAlert && (
+                 <ShowApptStatusAlert
+                     message={alertMssg}
+                     type={alertType}
+                     onClose={handleCloseAlertStatus}/>
+             )}
+         </>
+     )
+ }
+
+ /**
+  * 
+  * @param text 
+  * @param searchTerm 
+  * @returns 
+  */
+ function highlightMatch(text: string, searchTerm: string) {
+   if (!searchTerm) return text;
+
+   const regex = new RegExp(`(${searchTerm})`, 'gi');
+   const parts = (text || '').split(regex);
+
+   return parts.map((part, index) => 
+     part.toLowerCase() === searchTerm.toLowerCase() 
+       ? <span key={index} style={{ backgroundColor: 'lightblue' }}>{part}</span> 
+       : part
+   );
+ }

@@ -1,0 +1,236 @@
+
+.main {
+    display: flex;
+    border: 2px solid black;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    padding: 10px;
+}
+
+.doctorProfilePage {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 30px;
+    text-align: left;
+    background-color: rgb(245, 245, 245);
+}
+
+.doctorProfilePage {
+    padding: 20px;
+    margin: 80px 50px 400px;
+    width: 600px;
+    height: auto;
+}
+
+.doctorProfilePage h3 {
+    padding-bottom: 10px;
+    border-bottom: 2px solid black;
+}
+
+.doctorCredentials {
+    border: 1px solid rgb(219, 219, 217);
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    height: fit-content;
+    background-color: rgb(244, 246, 247);
+}
+
+.rowContainer {
+    border-bottom: 1px solid rgb(82, 82, 82);
+    display: flex;
+    justify-content: space-between;
+    width: fit-content;
+    height: fit-content;
+}
+
+.itemA {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    width: 200px;
+}
+
+.itemB {
+    display: flex;
+    padding: 10px;
+}
+
+.itemB input,
+.itemB button{
+    padding: 10px;
+    width: 250px;
+    border-radius: 5px;
+    border: 1px solid;
+    font-size: 15px;
+
+}
+
+.itemB button {
+    cursor: pointer;
+}
+
+.itemB :disabled {
+    cursor: not-allowed;
+    background-color: white;
+}
+
+.itemB button:hover {
+    background-color: rgb(188, 188, 188);
+}
+
+.buttonsSection {
+    display: flex;
+    justify-content: center;
+    width: 500px;
+}
+
+.buttonsSection button {
+    padding: 10px;
+    width: 150px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 5px;
+    border: none;
+    color: white;
+}
+
+.editButton {
+    background-color: royalblue;
+}
+
+.editButton:hover {
+    background-color: rgb(37, 37, 230);
+}
+
+.editMode {
+    display: flex;
+    gap: 10px;
+}
+
+.cancelButton {
+    background-color: red;
+}
+
+.cancelButton:hover {
+    background-color: rgb(194, 4, 4);
+}
+
+.saveButton {
+    background-color: green;
+}
+
+.saveButton:hover {
+    background-color: rgb(0, 102, 0);
+}
+
+/* Password Change Modal */
+.passwordModalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.passwordModal {
+    display: flex;
+    flex-direction: column;
+    background-color: #fcfcfc;
+    border: 1px solid #00000060;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.185);
+    padding: 30px;
+    width: 420px;
+    gap: 15px;
+}
+
+.passwordModal h3 {
+    margin: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.passwordFormGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.passwordFormGroup label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.passwordInputWrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.passwordFormGroup input {
+    padding: 10px;
+    padding-right: 40px;
+    width: 100%;
+    border: 1px solid grey;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+.passwordFormGroup input:focus {
+    border: 1px solid blue;
+    outline: none;
+}
+
+.eyeButton {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+.eyeButton:hover {
+    color: #333;
+}
+
+.passwordError {
+    padding: 8px 12px;
+    background-color: #f8d7da;
+    border: 1px solid #dc3545;
+    border-radius: 5px;
+    color: #721c24;
+    font-size: 14px;
+}
+
+.passwordError p {
+    margin: 0;
+}
+
+.passwordModalButtons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.passwordModalButtons button {
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 5px;
+    border: none;
+    color: white;
+}

@@ -1,0 +1,329 @@
+/**
+ * @author : csd4740 - Efstathia Sekadaki
+ */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+/* Empty State */
+.emptyState {
+    text-align: center;
+    padding: 40px;
+    background-color: white;
+    border-radius: 8px;
+    color: #999;
+    font-size: 14px;
+    border: 1px dashed #ddd;
+}
+
+/* Reports Tabs/Cards Container */
+.reportsTabs {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Report Card */
+.reportCard {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.reportCard:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Report Header */
+.reportHeader {
+    background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+    padding: 16px;
+    border-bottom: 2px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dateSection {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.date {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    text-transform: capitalize;
+}
+
+.status {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status.completed {
+    background-color: #bbdefb;
+    color: #1565c0;
+}
+
+.status.pending {
+    background-color: #e3f2fd;
+    color: #1565c0;
+}
+
+/* Report Content */
+.reportContent {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.reportItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.reportItem:last-child {
+    border-bottom: none;
+}
+
+.itemLabel {
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+    min-width: 100px;
+}
+
+.itemValue {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+}
+
+/* Daily pain progress */
+.reportProgressContainer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+}
+
+.reportProgressBar {
+    flex: 1;
+    min-width: 100px;
+    height: 24px;
+    background-color: #e0e0e0;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.reportProgressFill {
+    height: 100%;
+    width: 0%;
+    transition: width 0.4s ease;
+    background-color: #1976d2;
+}
+
+.progressText {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.painCategory {
+    font-size: 12px;
+    color: #999;
+    font-style: italic;
+    align-self: flex-end;
+    margin-right: 0;
+}
+
+/* Yes/No Indicator */
+.yesNoIndicator {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.yesNoIndicator.yes {
+    background-color: #bbdefb;
+    color: #1565c0;
+}
+
+.yesNoIndicator.no {
+    background-color: #e3f2fd;
+    color: #1565c0;
+}
+
+/* Analytics Container */
+.analyticsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.analyticsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Analytics Card */
+.analyticsCard {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.analyticsCard:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.circularProgress {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.progressSvg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.progressBg {
+    fill: none;
+    stroke: #e0e0e0;
+    stroke-width: 8;
+}
+
+.progressCircle {
+    fill: none;
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dasharray 0.6s ease;
+}
+
+.analyticsProgressText {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    text-align: horizontal;
+}
+
+.cardLabel {
+    font-size: 14px;
+    font-weight: 600;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* Trend Chart Container */
+.trendChartContainer {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.trendTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 16px;
+    margin-top: 0;
+}
+
+@media (max-width: 1024px) {
+    .analyticsGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        gap: 15px;
+        padding: 10px;
+    }
+
+    .reportHeader {
+        padding: 12px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .dateSection {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+        align-items: flex-start;
+    }
+
+    .reportContent {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .reportItem {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .itemValue {
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .reportProgressContainer {
+        width: 100%;
+    }
+
+    .progressText {
+        text-align: left;
+    }
+
+    .analyticsContainer {
+        gap: 20px;
+    }
+
+    .trendChartContainer {
+        margin-top: 10px;
+    }
+}

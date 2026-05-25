@@ -1,0 +1,39 @@
+.wlcmpgContent {
+    display: flex;
+    justify-content: space-between; gap: 150px;
+    margin: 100px 90px 430px; padding: 20px 20px;
+    width: fit-content; height: auto;
+    /* border: 2px solid black; */
+    font-size: larger;
+}
+
+
+.wlcmpgContent h3,
+.wlcmpgContent p {
+    margin-bottom: 10px;
+}
+
+.wlcmpgContent h4 {
+    margin-top: 20px;
+}
+
+
+.leftContent {
+    display: flex; flex-direction: column;
+}
+
+.rightContent {
+    display: flex; flex-direction: column;
+}
+
+.rightContent img {
+    width: 200px;
+    height: 180px;
+}
+
+.linkAction {
+    margin-top: 5px;
+    font-weight: bold;
+    text-decoration: underline;
+    color: blue;
+}

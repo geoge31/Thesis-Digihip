@@ -1,0 +1,799 @@
+/* 
+ * Patient Details - CSS styling 
+ */
+
+.mainLoading {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+}
+
+.mainLoading .loadingData {
+
+}
+
+.main {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    height: 100%;
+    overflow: hidden;
+    padding: 5px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.main button {
+    cursor: pointer;
+}
+
+.main .page {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    background-color: #eef1f5da;
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 0.2rem;
+}
+
+.header button[name='bck-btn'] {
+    border-radius: 5px;
+    border: 1px solid #8b8b8b00;
+    background-color: transparent;
+    font-size: 1.3rem;
+    padding: 0.2rem;
+    padding-bottom: 0rem;
+    padding-right: 1rem;
+}
+
+.header button[name='bck-btn']:hover {
+    transform: translateX(-2px);
+    font-weight: bold;
+}
+
+.header p {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    padding-bottom: 0rem;
+    gap: 5px;
+}
+
+.page .container {
+    display: flex;
+    width: 100%;
+    max-height: 90%;
+    padding: 10px;
+    overflow: hidden;
+    border: none;
+}
+
+.container .info {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    gap: 1em;
+    max-height: 100%;
+}
+
+
+.info .card {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    gap: 1em;
+    border: 1px solid grey;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    overflow: hidden;
+    max-height: fit-content;
+}
+
+.card .cardName {
+    display: flex;
+    justify-content: center;
+    font-size: 1.2rem;
+    letter-spacing: 0.05cap;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.card .cardItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    letter-spacing: 0.05cap;
+}
+
+.appointments {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    gap: 1em;
+    border: 1px solid grey;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    height: 300px;
+}
+
+.appointmentScroll {
+    overflow-y: auto;
+    padding: 0.25rem 0.7rem 0.25rem 0.25rem;
+    box-sizing: border-box;
+    height: 300px;
+}
+
+.appointments .apptsHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.apptsHeaderTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.appointments select {
+    padding: 10px;
+    border-radius: 5px;
+    width: fit-content;
+}
+
+.appointments button {
+    width: auto;
+    min-width: 34px;
+    height: 34px;
+    background-color: #007bff;
+    color: #fff;
+    padding: 6px;
+    border: none;
+    border-radius: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+.appointments .incomingAppts,
+.appointments .upcomingAppts {
+    padding: 5px;
+    height: 80%;
+    width: 70%;
+    /* overflow-y: auto; */
+    cursor: pointer;
+}
+
+.appointments .tooltip {
+    visibility: hidden;
+    position: absolute;
+    background-color: rgba(204, 204, 204, 0.767);
+    color: #000;
+    text-align: left;
+    transform: translateX(+50%);
+    opacity: 0;
+    transition: opacity 0.5s;
+    z-index: 1;
+    padding: 10px;
+    width: fit-content;
+}
+
+.tooltip ul {
+    list-style: none;
+}
+
+
+.appointments .appointmentItem {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid;
+    overflow: hidden;
+}
+
+.appointmentItem:hover {
+    background-color: rgb(1, 66, 68);
+    color: white;
+}
+
+.appointmentItem:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.appointmentItem .ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+/* added by Manos */
+.container .NotificationCard {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    gap: 1em;
+    border: 1px solid grey;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    overflow: hidden;
+    max-height: fit-content;
+}
+
+.container .NotificationCard button {
+    width: auto;
+    min-width: 34px;
+    height: 34px;
+    background-color: #007bff;
+    color: #fff;
+    padding: 6px;
+    border: none;
+    border-radius: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+.container .NotificationCard button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+}
+
+.container .main {
+    display: grid;
+    grid-template-columns: 0.5fr 9fr 0.5fr;
+    width: 70%;
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+}
+
+.container .main .aside {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main .aside button {
+    display: flex;
+    padding: 10px;
+    border-radius: 100%;
+    border: none;
+    background-color: white;
+    font-size: 1.2rem;
+}
+
+.main .aside button:hover {
+    background-color: #eceaeaa1;
+}
+
+.container .main .center {
+    display: flex;
+    padding: 5px;
+    width: 100%;
+    height: 100%;
+    max-height: 90vh;
+    border-radius: 8px;
+    border: 1px solid grey;
+    background-color: #f9f9f9;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+/* .center .sectionsA,
+.center .sectionsB {
+display: grid;
+cursor: pointer;
+}
+
+.center .sectionsA {
+grid-template-columns: repeat(4,1fr);
+} */
+/* .center .sectionsB {
+grid-template-columns: repeat(2,1fr);
+}
+
+.sectionsA .sectionAItem,
+.sectionsB .sectionBItem {
+display: flex;
+justify-content: center;
+align-items: center;
+background-color: #f0f0f0;
+border-right: 1px solid #000;
+transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+.sectionsA .sectionAItem:hover,
+.sectionsB .sectionBItem:hover {
+background-color: #d0e8ff ;
+}
+
+.sectionsA .sectionAItem:focus, 
+.sectionsB .sectionBItem:focus {
+background-color: #3399ff;
+color: white;
+}
+
+.sectionsA .focused {
+background-color: #3399ff;
+color: white;
+overflow: hidden;
+} */
+/* 
+.center .contentA {
+max-height: 100%; 
+box-sizing: border-box;
+overflow-y: auto; 
+padding: 10px;
+}
+*/
+/* .contentA .demographics,
+.contentA .medical,
+.contentA .operation,
+.contentA .other {
+display: flex;
+flex-direction: column;
+padding: 5px;
+align-items: center;
+width: 100%;
+height: fit-content; 
+max-height: 85vh; 
+background-color: #fffefe;
+border: 1px solid #000;
+border-radius: 5px;
+box-sizing: border-box;
+overflow-y: auto; 
+} */
+
+.contentA .aItem {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #000;
+    padding: 2px;
+    width: 100%;
+}
+
+.aItem .label {
+    display: flex;
+    align-items: center;
+    width: 30%;
+    height: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.aItem .value {
+    display: flex;
+    align-items: center;
+    width: 70%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.aItem .value input {
+    padding: 10px;
+    width: 100%;
+    max-width: 25vw;
+    font-size: 0.85rem;
+    letter-spacing: 0.05cap;
+    border-radius: 5px;
+    border: 1px solid;
+}
+
+.value input:read-only {
+    opacity: 0.9;
+    cursor: default;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.patientPage {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    min-width: 1300px;
+    max-width: 1300px;
+    height: 800px;
+    padding: 10px;
+    background-color: rgba(214, 214, 214, 0.259);
+}
+
+.Header {
+    display: flex;
+    gap: 20px;
+    padding: 10px;
+    border-bottom: 1px solid;
+    margin-bottom: 10px;
+}
+
+.backAction {
+    display: flex;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+    .backAction:hover {
+        background-color: white;
+        border-radius: 10px;
+        color: black;
+    }
+
+.HeaderBackButton {
+    padding: 8px 8px;
+    width: 120px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid;
+}
+
+    .HeaderBackButton:hover {
+        background-color: rgb(209, 209, 209);
+    }
+
+.pageActions {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 440px;
+}
+
+    .pageActions button {
+        padding: 8px 8px;
+        border-radius: 5px;
+        border: 1px solid;
+        cursor: pointer;
+    }
+
+        .pageActions button:hover {
+            background-color: rgb(187, 187, 187);
+        }
+
+.FirstPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    width: 1250px;
+}
+
+.FirstPageSections {
+    display: flex;
+    padding: 10px;
+    height: fit-content;
+    max-width: 1200px;
+}
+
+.divSections {
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    padding: 25px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: rgb(255, 255, 255);
+    cursor: pointer;
+    width: 250px;
+    font-size: 16px;
+}
+
+.FirstPageRender {
+    padding: 10px;
+    max-width: 1200px;
+    height: 550px;
+}
+
+.selectedDiv {
+    display: flex;
+    justify-content: space-between;
+}
+
+.divDesign {
+    display: flex;
+    flex-direction: column;
+}
+
+.divContent {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid brown;
+    height: 490px;
+}
+
+    .divContent label {
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+
+    .divContent p {
+        font-size: 13px;
+        margin-top: 5px;
+    }
+
+    .divContent input {
+        padding: 8px;
+        width: 250px;
+        border-radius: 5px;
+        border: 1px solid lightgrey;
+        font-weight: bold;
+    }
+
+        .divContent input:disabled {
+            cursor: not-allowed;
+            background-color: rgb(248, 247, 247);
+        }
+
+    .divContent table {
+        display: flex;
+        height: 500px;
+        width: 700px;
+        overflow: scroll;
+        background-color: white;
+        border: 1px solid lightgray;
+    }
+
+    .divContent th {
+        display: flex;
+        text-align: left;
+        padding: 20px;
+        border-bottom: 1px solid;
+        width: 350px;
+    }
+
+    .divContent td {
+        text-align: left;
+        padding: 5px;
+        border-bottom: 1px solid;
+        width: 350px;
+    }
+
+.editDetails {
+    padding: 8px;
+    width: 200px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    font-size: 14px;
+}
+
+    .editDetails:hover {
+        background-color: rgb(224, 224, 224);
+        border: 1px solid gray;
+    }
+
+.FirstPageAppointment {
+    border: 2px solid rosybrown;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    height: fit-content;
+    width: 450px;
+    background-color: rgb(241, 242, 242);
+}
+
+.appointmentHeader {
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid;
+    display: flex;
+    gap: 10px;
+}
+
+.IconCalendar {
+    font-size: 18px;
+}
+
+.appointmentTable {
+    text-align: left;
+    background-color: rgb(235, 235, 235);
+    border: 1px solid rgba(128, 128, 128, 0.469);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+    .appointmentTable th {
+        padding: 8px;
+        width: 200px;
+    }
+
+    .appointmentTable td {
+        padding: 8px;
+        width: 200px;
+    }
+
+.appointmentTable {
+    border: 1px;
+}
+/* .loadingData {
+display: flex;
+justify-content: center;
+height: 100%;
+font-size: 20px;
+margin-top: 100px;
+} */
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ddd;
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.loadingModal {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.loadingModal span {
+    font-size: 1rem;
+    color: #333;
+    text-align: center;
+}
+
+.groupContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.notification {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: #f9f9f9;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    border-radius: 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);
+    margin-top: 8px;
+}
+
+.NotificationHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+    .NotificationHeader button {
+        display: flex;
+        padding: 6px 6px;
+        align-items: center;
+        border-radius: 100%;
+        border: none;
+        background-color: rgba(8, 95, 226, 0.808);
+        color: white;
+        font-size: 1rem;
+    }

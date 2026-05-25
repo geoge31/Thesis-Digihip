@@ -1,0 +1,239 @@
+/* src/app/components/Navbar.module.css */
+.navbar {
+    background-color: #3d3d3d;
+    height: 100px;
+    font-size: 1rem;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+    height: 100%;
+}
+
+.LoGo {
+    color: white;
+}
+
+.navItems {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 10px;
+    height: 100%;
+}
+
+.item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 150px;
+    border-right: 1px solid #f8f8f8;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    color: #f8f8f8;
+}
+
+
+.item:hover {
+    background-color: #f8f8f8;
+    color: #3b3b3b;
+}
+
+.itemActive {
+    position: relative;
+    display: flex;
+    text-decoration: underline; 
+    text-underline-offset: 8px;
+    text-decoration-thickness: 2px;
+    text-decoration-color: #f0efef;
+    color: #f0efef;
+}
+
+.itemActive:hover {
+    color: #fff;
+    cursor: pointer;
+}
+
+.Actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  color: #fff;            
+  padding: 8px 10px;        
+  border-radius: 999px;
+
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.Actions:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.Actions:active {
+  transform: scale(0.98);
+}
+.menuIconRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal {
+  position: absolute;
+  right: 10px;
+  margin-top: 10px;
+  background-color: rgba(233, 230, 230, 0.912);
+  border-radius: 10px;
+  z-index: 2000;
+  padding: 25px;        
+  padding-top: 14px;     
+}
+
+.closeButton {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+
+  background-color: transparent;
+  border: none;
+
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.12s ease;
+}
+
+.closeButton:hover {
+    cursor: pointer;
+    color: rgb(248, 104, 104);
+    transform: scale(1.06);
+}
+
+.Profile {
+    padding: 10px;
+    font-size: 19px;
+    border-top: none;
+    border-bottom: none;
+    z-index: 1000;
+}
+
+.Notifications, .Logout {
+    padding: 10px;
+    font-size: 19px;
+    border-bottom: 1px solid grey;
+}
+
+.Profile:hover,
+.Notifications:hover {
+    background-color: rgb(128, 128, 128); color: white;
+    cursor: pointer;
+}
+
+.Logout:hover {
+    background-color: rgb(248, 104, 104); color: white;
+    cursor: pointer;
+}
+
+.logoutIcon {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.unreadBadge {
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    padding: 2px 6px;
+    margin-left: 5px;
+    position: relative;
+    top: -10px;
+    right: -10px;
+    font-weight: bold;
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1999;
+}
+
+.loadingModal {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 2000;
+}
+
+.loadingModal span {
+    font-size: 1rem;
+    color: #333;
+    text-align: center;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ddd;
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    .navItems {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
+        cursor: pointer;
+    }
+
+    .mobileMenuActive .navItems {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 80px;
+        right: 0;
+        background: #2f2f2f;
+        width: 100%;
+        padding: 20px;
+    }
+}

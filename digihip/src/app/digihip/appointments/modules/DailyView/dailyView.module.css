@@ -1,0 +1,51 @@
+/* Daily Appointments Design */
+.dailyView {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+  
+.dateDisplay {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    overflow-y: auto;
+}
+  
+.appointmentBox {
+    background-color: #e6f0ff;
+    padding: 0.75rem;
+    border-radius: 4px;
+    border: 1px solid #b3cde0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+.appointmentBox:hover {
+    background: #788590b4;
+}
+  
+.time {
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+  
+.noAppointments {
+    color: #888;
+}
+
+.datePickerWrapper {
+  position: absolute;
+  z-index: 1000;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  border-radius: 8px;
+}

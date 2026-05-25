@@ -1,0 +1,29 @@
+.tooltip {
+    visibility: hidden;
+    position: absolute;
+    top: 100%; /* or adjust as needed */
+    left: 0;
+    margin-top: 5px; /* small spacing */
+    padding: 10px 20px;
+    background-color: #ccc;
+    color: #000;
+    border-radius: 5px;
+    width: max-content;
+    z-index: 10;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+    cursor: default;
+}
+
+.appointmentItem:hover .tooltip{
+    visibility: visible;
+}
+
+.tooltip li{
+    list-style:circle;
+    margin-bottom: 0.2rem;
+}
+
+.tooltip .clickPatient:hover {
+    cursor: pointer;
+    color: blue;
+}

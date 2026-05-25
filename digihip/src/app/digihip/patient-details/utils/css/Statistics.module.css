@@ -1,0 +1,79 @@
+/**
+ * @author : csd4740 - Efstathia Sekadaki
+ */
+
+/* Filter Section */
+.filterSection {
+    background-color: white;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.filterLeft {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.filterRight {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.filterLabel {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    min-width: 100px;
+}
+
+.filterSelect {
+    padding: 8px 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    min-width: 150px;
+}
+
+.filterSelect:hover {
+    border-color: #1976d2;
+}
+
+.filterSelect:focus {
+    outline: none;
+    border-color: #1976d2;
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+}
+
+.dateInput {
+    padding: 8px 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    min-width: 150px;
+}
+
+.dateInput:hover {
+    border-color: #1976d2;
+}
+
+.dateInput:focus {
+    outline: none;
+    border-color: #1976d2;
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+}

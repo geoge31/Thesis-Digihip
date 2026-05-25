@@ -1,0 +1,301 @@
+/* Appointments Page Design */
+
+.main {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem;
+    width: 100vw;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin-bottom: 5vh;
+}
+
+.appointmentsHeader {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+}
+
+.appointmentsContent {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+
+.navigationPanel {
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+    width: fit-content;
+}
+
+.navigationPanel select {
+    display: block;
+    text-align: left;
+    padding: 10px 15px;
+    background-color: #f5f5f5c0;
+    border: 1px solid #b8b6b657;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.navigationPanel select:hover {
+    background-color: #e4e4e4;
+    border: 1px solid #b8b6b657;
+}
+
+.addAppointment {
+    display: flex;
+    padding: 5px;
+}
+
+.addAppointment button {
+    padding: 10px 10px;
+    background-color: #017cd4f4;
+    border: 1px solid #017cd4;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.addAppointment button:hover {
+    background-color: #006dbb;
+}
+
+.appointmentModal {
+    display: flex; flex-direction: column;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100000;
+    width: 50%;
+    height: auto;
+    margin: 180px 450px;
+    background-color: rgb(252, 252, 252);
+    border: 1px solid rgb(228, 228, 228);
+    border-radius: 5px;
+}
+
+.appointmentModal .clsBttn {
+    width: fit-content;
+}
+
+.appointmentModal .closeModal {
+    display: flex;
+    justify-content: right;
+}
+
+.appointmentModal .closeModal  button{
+    background-color: unset;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.appointmentModal .closeModal button:hover {
+    color: red;
+}
+
+.appointmentModal .appointmentHeader h4{
+    font-weight: normal;
+    font-size: 18px;
+    margin-left:260px;
+    border-bottom: 1px solid;
+    width: 250px;
+    padding-bottom: 10px;
+}
+
+.appointmentModal .appointmentFormSection {
+    display: flex; flex-direction: column;
+    align-items: center;
+    padding: 5px;
+}
+
+.appointmentModal .appointmentFormSection .appointmentGroupBox {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    padding: 5px;
+    margin: 10px 0 5px;
+}
+
+.appointmentGroupBox input {
+    padding: 8px;
+    font-size: 16px;
+    cursor: text;
+    border-radius: 5px;
+    border: 1px solid;
+    width: 400px;
+}
+
+.appointmentGroupBox label {
+    font-size: 17px;
+    margin-bottom: 5px;
+}
+
+
+.appointmentModal .appointmentFormSection .appointmentModalButtons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 5px;
+    margin: 10px;
+    width: 440px;
+}
+
+.appointmentModal .appointmentFormSection .appointmentModalButtons button {
+    padding: 8px;
+    width: 180px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.appointmentModal .appointmentFormSection .appointmentModalButtons .apmdlSv {
+    background-color: royalblue;
+    color: white;
+    border: 1px solid blue;
+}
+
+.appointmentModal .appointmentFormSection .appointmentModalButtons .apmdlSv:hover {
+    background-color: rgb(26, 55, 144);
+    color: white;
+    border: 1px solid blue;
+}
+
+.appointmentModal .appointmentFormSection .appointmentModalButtons .apmMdlClr {
+    border: 1px solid;
+}
+
+.appointmentModal .appointmentFormSection .appointmentModalButtons .apmMdlClr:hover {
+    background-color: #ccc;
+}
+
+/* .availablePatients {
+    display: flex;
+    border: 2px solid red;
+    padding: 5px;
+    margin: 5px;
+    height: auto;
+} */
+
+.availablePatients ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 5px;
+    margin: 5px 0;
+    padding: 5px 10px;
+    border: 1px solid;
+    border-radius: 5px;
+    max-width: 380px;
+    max-height: 200px;
+    background-color: rgb(247, 247, 247);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.weeklyTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.weeklyTable th, .weeklyTable td {
+
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+    width: 250px;
+}
+
+.weeklyTable td {
+    height: 500px;
+}
+
+
+.selectionHeader {
+    padding: 5px;
+    width: fit-content;
+}
+
+
+.today {
+    display: flex;
+    padding: 5px;
+}
+
+.today button {
+    display: flex;
+    padding: 10px 10px;
+    background-color: #f5f5f5c0;
+    border: 1px solid #b8b6b657;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.today button:hover {
+    background-color: #e4e4e4;
+}
+
+.prev_next_Button {
+    display: flex;
+    padding: 5px;
+    align-items: center;
+}
+
+.prev_next_Button button {
+    display: flex;
+    padding: 7px 7px;
+    background-color: #f5f5f5c0;
+    border: 1px solid #b8b6b657;
+    border-radius: 100%;
+    text-align: center;
+    font-size: large;
+    cursor: pointer;
+}
+
+.prev_next_Button button:hover {
+    background-color: #e4e4e4;
+}
+
+.datePicker_content {
+    display: flex;
+    padding: 5px;
+    align-items: center;
+}
+
+.selectionNavigation {
+    display: flex;
+    gap: 5px;
+}
+
+.loadingData {
+    display: flex;
+    min-height: 100vh;
+    justify-content: center;
+    font-size: 20px;
+    margin-top: 100px;
+}
+
+.spinner {
+    width: 30px;
+    height: 30px;
+    border: 4px solid #ddd;
+    border-top: 4px solid #007bff; /* Customize color */
+    border-radius: 50%;
+    animation: spin 0.5s linear infinite;
+    margin-right: 10px; /* Space between spinner and text */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

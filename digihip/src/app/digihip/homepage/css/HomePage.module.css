@@ -1,0 +1,481 @@
+
+/**/
+
+.main {
+    display: flex;
+    padding: 10px;
+    height: 100vh;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    border: none;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background-color: #e7e7e762;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: none;
+}
+
+.content .header {
+    display: flex;
+    min-height: 5vh;
+    width: 100%;
+    align-items: center;
+    box-sizing: border-box;
+    overflow: hidden;
+    font-size: 1rem;
+    letter-spacing: 0.05cap;
+    margin-bottom: 20px;
+}
+
+.content .actions {
+    display: flex;
+    width: 100%;
+    min-height: 50px;
+    gap: 10px;
+    align-items: center;
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
+.actions .search {
+    display: flex;
+    height: 42px;
+}
+
+.actions .dropdown,
+.actions .register_patient {
+    display: flex;
+    width: fit-content;
+    height: 42px;
+}
+
+.dropdown select
+{
+    display: flex;
+    padding: 12px 14px;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.dropdown button {
+    gap: 5px;
+    background-color: #f5f5f544;
+    border: 1px solid #b8b6b657;
+}
+
+.dropdown select:hover {
+    background-color: #e4e4e4;
+}
+
+.dropdown select:focus {
+    background-color: white;
+
+}
+
+
+.register_patient button[name="addPatient"] {
+    background-color: #2196F3;
+    color: white;
+    border: 1px solid #00000079;
+}
+
+.register_patient button[name="addPatient"]:hover {
+    background-color: #1E88E5;
+}
+
+.register_patient button[name="addPatient"]:focus {
+    background-color: #1976D2;
+}
+
+.tableN {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 70vh;
+    margin-top: 15px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #00000036;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.tableNHeader {
+    display: grid;
+    grid-template-columns: 24% 12% 12% 12% 21% 12% auto;
+    width: 100%;
+    height: 5vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    align-items: center;
+}
+
+.tableNHeaderCell {
+    display: flex;
+    padding-left: 10px;
+    align-items: center;
+    height: 100%;
+    background: #d6d6d6;
+}
+
+.tableNHeaderCell:not(:last-child) {
+    border-right: 1px solid #545454; 
+}
+
+.tableNHeaderCell:last-child {
+    border-right: none; 
+}
+
+.tableNContent {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.tableNContentCell {
+    display: grid;
+    grid-template-columns: 24% 12% 12% 12% 21% 12% auto;
+    background: #fcfcfc;
+}
+
+.tableNContentCell:hover {
+    background: #5b6570;
+    cursor: pointer;
+    color: white;
+}
+
+.itemCell {
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    min-height: 7vh;
+    max-height: 10vh;
+    overflow: hidden;
+    word-break: break-all;
+    white-space: wrap;
+}
+
+.itemCell:not(:last-child) {
+    border-right: 1px solid #545454; 
+}
+
+.itemCell:last-child {
+    border-right: none; 
+    justify-content: center;
+}
+
+.itemCell button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background-color: transparent;
+    color: #999;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.itemCell button:hover {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border-color: #fca5a5;
+}
+
+.tableNContentCell:hover .itemCell button {
+    color: #ccc;
+}
+
+.tableNContentCell:hover .itemCell button:hover {
+    background-color: #dc2626;
+    color: white;
+    border-color: #dc2626;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.patients .table {
+    display: grid;
+    grid-template-rows: 70px 300px;
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.patients .tableEmpty {
+    display: grid;
+    padding: 30px;
+    width: 100%;
+    height: 55vh;
+}
+
+.table .tableHeader,
+.table .tableRow {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1fr 0.2fr;
+}
+
+.table .tableHeader {
+    height: 100%;
+
+    font-weight: bold;
+    background-color: #d6d6d6;
+    padding: 10px;
+    border: 2px solid;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.table .tableHeaderCell {
+    display: flex;
+    padding: 8px;
+    align-items: center;
+    font-size: 1rem;
+    border: 2px solid;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table .tableRow {
+    background-color: #fcfcfc;
+    border-bottom: 1px solid #ddd;
+    border: 2px solid magenta;
+    padding: 10px 0;
+    cursor: pointer;
+    align-items: center;
+    word-break: break-all;
+    overflow-y: hidden;
+
+}
+
+.table .tableRow:hover {
+    background-color: rgba(199, 199, 199, 0.514);
+}
+
+.preOperationStage {
+    color: #004d99; 
+}
+  
+.postOperationStage {
+    color: #8b4513; 
+}
+
+.table .tableCell {
+    display: flex;
+    padding: 8px;
+    font-size: 0.9rem;
+    align-items: center;
+}
+
+.tableCell .tableCellDiff {
+    display: flex;
+    flex-direction: column;
+}
+
+.tableCell button {
+    display: flex;
+    padding: 8px;
+    border: 1px solid #00000062;
+    border-radius: 5px;
+    background-color: rgb(236, 236, 236);
+    color: black;
+    font-weight: bolder;
+    font-size: 1.5cap;
+    cursor: pointer;
+}
+
+.tableCell button:hover {
+    background-color: rgb(218, 1, 1);
+    color: white;
+}
+
+.loadingData {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    min-height: 80vh;
+    font-size: 20px;
+    margin-top: 100px;
+}
+
+
+
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ddd;
+    border-top: 4px solid #007bff; 
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.loadingModal {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.loadingModal span {
+    font-size: 1rem;
+    color: #333;
+    text-align: center;
+}
+
+.recentDeletes {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 30px;
+    padding-bottom: 20px;
+}
+
+.recentDeletes h4 {
+    margin: 0 0 10px 0;
+    font-size: 1rem;
+    letter-spacing: 0.05cap;
+}
+
+.recentDeletesSearch {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.deletedTable {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 35vh;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #00000036;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.deletedTableHeader {
+    display: grid;
+    grid-template-columns: 24% 28% 20% 18% auto;
+    width: 100%;
+    height: 5vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    align-items: center;
+}
+
+.deletedTableHeaderCell {
+    display: flex;
+    padding-left: 10px;
+    align-items: center;
+    height: 100%;
+    background: #d6d6d6;
+    font-size: 0.85rem;
+}
+
+.deletedTableHeaderCell:not(:last-child) {
+    border-right: 1px solid #545454;
+}
+
+.deletedTableContent {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.deletedTableRow {
+    display: grid;
+    grid-template-columns: 24% 28% 20% 18% auto;
+    background: #fcfcfc;
+    cursor: pointer;
+}
+
+.deletedTableRow:hover {
+    background: #5b6570;
+    color: white;
+}
+
+.deletedItemCell {
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    min-height: 6vh;
+    max-height: 8vh;
+    overflow: hidden;
+    word-break: break-all;
+    white-space: wrap;
+    font-size: 0.85rem;
+}
+
+.deletedItemCell:not(:last-child) {
+    border-right: 1px solid #545454;
+}
+
+.deletedItemCell:last-child {
+    justify-content: center;
+    padding-left: 0;
+}
+
+.deletedEmpty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: #888;
+    font-style: italic;
+    font-size: 0.9rem;
+}

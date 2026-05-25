@@ -1,0 +1,36 @@
+.cnlsvDiv {
+    display: flex;
+    gap: 10px;
+}
+
+.cnlsvDiv button {
+    display: flex;
+    padding: 7px;
+    background-color: transparent;
+    border: none;
+    font-size: 1.5rem;
+}
+
+.cnlsvDiv button[name='cancel'] {
+    color: red;
+}
+
+.cnlsvDiv button[name='cancel']:hover {
+    background-color: rgba(221, 221, 221, 0.514);
+    border-radius: 100%;
+    color: darkred;
+}
+
+.cnlsvDiv button[name='cancel']:focus {
+    color: darkred;
+}
+
+.cnlsvDiv button[name='save'] {
+    color: green;
+}
+
+.cnlsvDiv button[name='save']:hover {
+    background-color: rgba(221, 221, 221, 0.514);
+    border-radius: 100%;
+    color: darkgreen;
+}
