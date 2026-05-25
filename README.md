@@ -140,11 +140,17 @@ npm run start
 
 ## 📸 Screenshots
 
-> - Patient dashboard / table
-> - Patient profile with clinical data and statistics
-> - Appointment calendar (monthly or weekly view)
-> - Real-time messaging interface
-> - New patient registration form
+> - ## Home Page
+   ![Patients Dashboard](imgs/home-page.png)
+> - ## New patient registration form
+   ![Patient Dashboard](imgs/register-patient.png)
+> - ## Patient profile with demographic and clinical data and statistics
+   ![Patient Dashboard](imgs/patient-page.png)
+   ![Patient Dashboard](imgs/patient-statistics-page.png)
+> - # Appointments (monthly, weekly or daily view)
+   ![Patient Dashboard](imgs/weekly-calendar-view.png)
+> - # Messages
+   ![Patient Dashboard](imgs/messages.png)
 
 ---
 
